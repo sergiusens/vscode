@@ -314,6 +314,24 @@ function buildDebPackage(arch) {
 	], { cwd: '.build/linux/deb/' + debArch});
 }
 
+function prepareSnap(arch) {
+	var binaryDir = '../VSCode-linux-' + arch;
+	var destination = '../install';
+
+	return function () {
+		var shortcut = gulp.src('resources/linux/bin/code.sh', { base: '.' })
+			.pipe(replace('@@NAME@@', product.applicationName))
+			.pipe(replace('VSCODE_PATH="/usr/share/$NAME"', 'VSCODE_PATH="$SNAP"'))
+			.pipe(rename('bin/' + product.applicationName));
+
+		var code = gulp.src(binaryDir + '/**/*', { base: binaryDir })
+
+		var all = es.merge(shortcut, code);
+
+		return all.pipe(symdest(destination));
+	};
+}
+
 function getHomeDir() {
 	if (typeof os.homedir === 'function') {
 		return os.homedir();
@@ -399,6 +417,7 @@ gulp.task('vscode-darwin-min', ['minify-vscode', 'clean-vscode-darwin'], package
 gulp.task('vscode-linux-ia32-min', ['minify-vscode', 'clean-vscode-linux-ia32'], packageTask('linux', 'ia32', { minified: true }));
 gulp.task('vscode-linux-x64-min', ['minify-vscode', 'clean-vscode-linux-x64'], packageTask('linux', 'x64', { minified: true }));
 gulp.task('vscode-linux-arm-min', ['minify-vscode', 'clean-vscode-linux-arm'], packageTask('linux', 'arm', { minified: true }));
+gulp.task('vscode-linux-x64-prepare-snap', ['vscode-linux-x64-min'], prepareSnap('x64'));
 
 gulp.task('vscode-linux-ia32-prepare-deb', ['clean-vscode-linux-ia32-deb', 'vscode-linux-ia32-min'], prepareDebPackage('ia32'));
 gulp.task('vscode-linux-x64-prepare-deb', ['clean-vscode-linux-x64-deb', 'vscode-linux-x64-min'], prepareDebPackage('x64'));
