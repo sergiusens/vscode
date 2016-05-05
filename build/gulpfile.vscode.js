@@ -319,9 +319,8 @@ function prepareSnap(arch) {
 	var destination = '../install';
 
 	return function () {
-		var shortcut = gulp.src('resources/linux/bin/code.sh', { base: '.' })
+		var shortcut = gulp.src('resources/linux/bin/code-snap.sh', { base: '.' })
 			.pipe(replace('@@NAME@@', product.applicationName))
-			.pipe(replace('VSCODE_PATH="/usr/share/$NAME"', 'VSCODE_PATH="$SNAP"'))
 			.pipe(rename('bin/' + product.applicationName));
 
 		var code = gulp.src(binaryDir + '/**/*', { base: binaryDir })
