@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Code - OSS
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=vscode %U
+Icon=${SNAP}/meta/gui/code.png
+Type=Application
+StartupNotify=true
+Categories=Utility;TextEditor;Development;IDE;
+MimeType=text/plain;

@@ -12,3 +12,7 @@ out-editor-ossfree-min/
 out-vscode/
 out-vscode-min/
 build/node_modules
+*.snap
+parts
+stage
+snap

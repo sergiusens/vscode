@@ -1,0 +1,22 @@
+name: vscode
+version: 1.0
+summary: Visual Studio Code editor.
+description: This is the Visual Studio code editor from Microsoft.
+
+apps:
+  vscode:
+    command: bin/code-oss
+    plugs: [unity7, opengl, home, network, network-bind]
+
+parts:
+  vscode:
+    source: .
+    plugin: nodejs
+    gulp-tasks:
+      - vscode-linux-x64-prepare-snap
+    build-packages:
+      - libx11-dev
+    stage-packages:
+      - libnss3
+      - fontconfig-config
+      - gnome-themes-standard
